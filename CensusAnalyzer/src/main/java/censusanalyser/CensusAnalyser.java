@@ -19,7 +19,7 @@ public class CensusAnalyser {
             CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
             int namOfEateries = 0;
-            while (censusCSVIterator.hasNext()) {    
+            while (censusCSVIterator.hasNext()) {
                 namOfEateries++;
                 IndiaCensusCSV censusData = censusCSVIterator.next();
             }
