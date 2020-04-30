@@ -2,11 +2,9 @@ package censusanalyser;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
@@ -24,10 +22,10 @@ public class CensusAnalyser {
             Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
             int numOfEnteries = (int) StreamSupport.stream( csvIterable.spliterator(), false ).count();
             return numOfEnteries;
-        }  catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(), CensusAnalyserException.ExceptionType.WRONG_DELIMITER );
-        }   catch (IOException e) {
+        } catch (IOException e) {
             throw new CensusAnalyserException( e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM );
-       }
+        }
     }
 }

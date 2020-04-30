@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class CensusAnalyserTest {
 
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
@@ -43,12 +41,12 @@ public class CensusAnalyserTest {
         }
     }
     @Test
-    public void givenIndianCensusData_WithIncorrectDelimiter_Should_ReturnException()  {
+    public void givenIndianCensusData_WithIncorrectDelimiter_Should_ReturnException() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             censusAnalyser.loadIndiaCensusData( WRONG_DELIMITER_FILE );
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals( CensusAnalyserException.ExceptionType.WRONG_DELIMITER, e.type);
+            Assert.assertEquals( CensusAnalyserException.ExceptionType.WRONG_DELIMITER, e.type );
         }
     }
 }
