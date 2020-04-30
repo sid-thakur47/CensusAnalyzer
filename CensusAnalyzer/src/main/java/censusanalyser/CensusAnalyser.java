@@ -22,10 +22,13 @@ public class CensusAnalyser {
             Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
             int numOfEnteries = (int) StreamSupport.stream( csvIterable.spliterator(), false ).count();
             return numOfEnteries;
+        } catch (RuntimeException e) {
+            throw new CensusAnalyserException( e.getMessage(), CensusAnalyserException.ExceptionType.WRONG_DATA );
         } catch (IOException e) {
             throw new CensusAnalyserException( e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM );
         }
     }
+
     public int loadIndianStateCodeData(String indiaCensusCsvFilePath) throws CensusAnalyserException {
         try {
             Reader reader = Files.newBufferedReader( Paths.get( indiaCensusCsvFilePath ) );
@@ -37,6 +40,8 @@ public class CensusAnalyser {
             Iterable<IndianState> csvIterable = () -> censusCSVIterator;
             int numOfEnteries = (int) StreamSupport.stream( csvIterable.spliterator(), false ).count();
             return numOfEnteries;
+        } catch (RuntimeException e) {
+            throw new CensusAnalyserException( e.getMessage(), CensusAnalyserException.ExceptionType.WRONG_DATA );
         } catch (IOException e) {
             throw new CensusAnalyserException( e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM );
         }
