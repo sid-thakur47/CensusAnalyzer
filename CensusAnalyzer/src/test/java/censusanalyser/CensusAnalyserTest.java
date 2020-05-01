@@ -18,8 +18,6 @@ public class CensusAnalyserTest {
     private static final String WRONG_STATE_DELIMITER_FILE = "./src/main/resources/IndiaStateCodeDelimiter.csv";
     private static final String WRONG_STATE_HEADER_FILE = "./src/main/resources/IndiaStateCodeHeader.csv";
 
-
-
     @Test
     public void givenIndianCensus_CSVFile_ReturnsCorrectRecords() {
         try {
