@@ -14,7 +14,7 @@ public class CensusAnalyserException extends Exception {
         this.type = type;
     }
 
-    enum ExceptionType {
+    public enum ExceptionType {
         CENSUS_FILE_PROBLEM,WRONG_DATA
     }
 }
