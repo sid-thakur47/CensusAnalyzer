@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
@@ -12,8 +13,8 @@ public class CensusAnalyser {
         try {
             Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
-            Iterator censusCSVIterator = csvBuilderInterface.getCSVFileIterator( reader, IndiaCensusCSV.class );
-            return getCount( censusCSVIterator );
+            List<IndiaCensusCSV> censusCSVList = csvBuilderInterface.getCSVFileList( reader, IndiaCensusCSV.class );
+            return censusCSVList.size();
         } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(),
                     CensusAnalyserException.ExceptionType.WRONG_DATA );
@@ -27,7 +28,7 @@ public class CensusAnalyser {
         try {
             Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
-            Iterator censusCSVIterator = csvBuilderInterface.getCSVFileIterator( reader, IndianState.class );
+            Iterator<IndianState> censusCSVIterator = csvBuilderInterface.getCSVFileIterator( reader, IndianState.class );
             return getCount( censusCSVIterator );
         } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(),
