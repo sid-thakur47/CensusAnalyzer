@@ -140,4 +140,12 @@ public class CensusAnalyserTest {
         IndiaCensusCSV[] censusCSV = new Gson().fromJson( sortedCensusData, IndiaCensusCSV[].class );
         Assert.assertEquals( "Andaman and Nicobar Islands", censusCSV[0].state );
     }
+    @Test
+    public void givenIndianStateCodeData_WhenSortedOnState_ShouldReturnEndSortedResult() throws CensusAnalyserException {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        censusAnalyser.loadIndianStateCodeData( FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
+        String sortedCensusData = censusAnalyser.getStateWiseCensusData();
+        IndiaCensusCSV[] censusCSV = new Gson().fromJson( sortedCensusData, IndiaCensusCSV[].class );
+        Assert.assertEquals( "West Bengal", censusCSV[censusCSV.length - 1].state );
+    }
 }
