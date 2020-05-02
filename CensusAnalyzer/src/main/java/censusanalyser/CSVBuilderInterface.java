@@ -7,4 +7,5 @@ import java.util.List;
 public interface CSVBuilderInterface<E> {
     Iterator<E> getCSVFileIterator(Reader reader, Class csvClass);
     List<E> getCSVFileList(Reader reader, Class csvClass);
+
 }
