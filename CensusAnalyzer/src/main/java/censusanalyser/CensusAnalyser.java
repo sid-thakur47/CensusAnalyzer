@@ -6,16 +6,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class CensusAnalyser {
+    HashMap<String, IndiaCensusDAO> censusMap;
     List<IndiaCensusDAO> censusList = null;
 
     public CensusAnalyser() {
-        this.censusList = new ArrayList<>();
+        this.censusMap = new HashMap<>();
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
@@ -24,8 +22,10 @@ public class CensusAnalyser {
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> csvFileIterator = csvBuilderInterface.getCSVFileIterator( reader, IndiaCensusCSV.class );
             while (csvFileIterator.hasNext()) {
-                this.censusList.add( new IndiaCensusDAO( csvFileIterator.next() ) );
+                IndiaCensusCSV indiaCensusCSV = csvFileIterator.next();
+                censusMap.put( indiaCensusCSV.state, new IndiaCensusDAO( indiaCensusCSV ) );
             }
+            censusList = new ArrayList( censusMap.values() );
             return censusList.size();
         } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(),
@@ -42,8 +42,10 @@ public class CensusAnalyser {
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndianState> csvFileIterator = csvBuilderInterface.getCSVFileIterator( reader, IndianState.class );
             while (csvFileIterator.hasNext()) {
-                this.censusList.add( new IndiaCensusDAO( csvFileIterator.next() ) );
+                IndianState indianStateCSV = csvFileIterator.next();
+                censusMap.put( indianStateCSV.state, new IndiaCensusDAO( indianStateCSV ) );
             }
+            censusList = new ArrayList( censusMap.values() );
             return censusList.size();
         } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(),
