@@ -6,17 +6,27 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class CensusAnalyser {
-    List<IndiaDetails> censusCSVList = null;
+    List<IndiaCensusDAO> censusList = null;
+
+    public CensusAnalyser() {
+        this.censusList = new ArrayList<>();
+    }
+
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try {
             Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
-            censusCSVList = csvBuilderInterface.getCSVFileList( reader, IndiaCensusCSV.class );
-            return censusCSVList.size();
+            Iterator<IndiaCensusCSV> csvFileIterator = csvBuilderInterface.getCSVFileIterator( reader, IndiaCensusCSV.class );
+            while (csvFileIterator.hasNext()) {
+                this.censusList.add( new IndiaCensusDAO( csvFileIterator.next() ) );
+            }
+            return censusList.size();
         } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(),
                     CensusAnalyserException.ExceptionType.WRONG_DATA );
@@ -27,12 +37,14 @@ public class CensusAnalyser {
     }
 
     public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
-
         try {
             Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
-            censusCSVList = csvBuilderInterface.getCSVFileList( reader, IndianState.class );
-            return censusCSVList.size();
+            Iterator<IndianState> csvFileIterator = csvBuilderInterface.getCSVFileIterator( reader, IndianState.class );
+            while (csvFileIterator.hasNext()) {
+                this.censusList.add( new IndiaCensusDAO( csvFileIterator.next() ) );
+            }
+            return censusList.size();
         } catch (RuntimeException e) {
             throw new CensusAnalyserException( e.getMessage(),
                     CensusAnalyserException.ExceptionType.WRONG_DATA );
@@ -43,22 +55,22 @@ public class CensusAnalyser {
     }
 
     public String getStateWiseCensusData() throws CensusAnalyserException {
-        if (censusCSVList == null || censusCSVList.size() == 0) {
+        if (censusList == null || censusList.size() == 0) {
             throw new CensusAnalyserException( "No Cenus Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA );
         }
-        Comparator<IndiaDetails> censusComparator = Comparator.comparing( IndiaDetails::getState );
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing( census -> census.sortCode );
         this.sort( censusComparator );
-        String sortedStateCensusJson = new Gson().toJson( censusCSVList );
+        String sortedStateCensusJson = new Gson().toJson( this.censusList );
         return sortedStateCensusJson;
     }
-    private void sort(Comparator<IndiaDetails> censusComparator) {
-        for (int i = 0; i < censusCSVList.size() - 1; i++) {
-            for (int j = 0; j < censusCSVList.size() - i - 1; j++) {
-                IndiaDetails census1 = censusCSVList.get( j );
-                IndiaDetails census2 = censusCSVList.get( j + 1 );
+    private void sort(Comparator<IndiaCensusDAO> censusComparator) {
+        for (int i = 0; i < censusList.size() - 1; i++) {
+            for (int j = 0; j < censusList.size() - i - 1; j++) {
+                IndiaCensusDAO census1 = censusList.get( j );
+                IndiaCensusDAO census2 = censusList.get( j + 1 );
                 if (censusComparator.compare( census1, census2 ) > 0) {
-                    censusCSVList.set( j, census2 );
-                    censusCSVList.set( j + 1, census1 );
+                    censusList.set( j, census2 );
+                    censusList.set( j + 1, census1 );
                 }
             }
         }
