@@ -8,6 +8,6 @@ public class CSVBuilderException extends RuntimeException {
         this.type = type;
     }
     public enum ExceptionType {
-        CENSUS_FILE_PROBLEM, WRONG_DATA
+        CENSUS_FILE_PROBLEM
     }
 }
