@@ -1,4 +1,4 @@
-package censusanalyser;
+package censusanalyser.service;
 
 public class CSVBuilderFactory {
     public static OpenCSVBuilder createCSVBuilder() {

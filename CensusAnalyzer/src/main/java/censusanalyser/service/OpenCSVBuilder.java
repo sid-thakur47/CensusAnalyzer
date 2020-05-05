@@ -1,6 +1,7 @@
-package censusanalyser;
+package censusanalyser.service;
 
-import CSVBuilderException.CSVBuilderException;
+import censusanalyser.exception.CSVBuilderException;
+import censusanalyser.service.CSVBuilderInterface;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
