@@ -29,7 +29,8 @@ public class CensusAnalyser {
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
             List csvList = csvBuilderInterface.getCSVFileList( reader, IndiaCensusCSV.class );
             Stream<IndiaCensusCSV> stream = csvList.stream();
-            stream.forEachOrdered( (indiaCensusCSV) -> censusMap.put( indiaCensusCSV.state, new IndiaCensusDAO( indiaCensusCSV ) ) );
+            stream.forEachOrdered( (indiaCensusCSV) -> censusMap.put( indiaCensusCSV.state,
+                    new IndiaCensusDAO( indiaCensusCSV ) ) );
             censusList = new ArrayList( censusMap.values() );
             return censusList.size();
         } catch (RuntimeException e) {
@@ -39,24 +40,6 @@ public class CensusAnalyser {
             throw new CensusAnalyserException( e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM );
         }
-    }
-    public int loadAll(String csvFilePath,Class className) throws CensusAnalyserException {
-        try {
-            Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
-            CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
-            List csvList = csvBuilderInterface.getCSVFileList( reader, IndiaCensusCSV.class );
-            Stream<IndiaCensusCSV> stream = csvList.stream();
-            stream.forEachOrdered( (indiaCensusCSV) -> censusMap.put( indiaCensusCSV.state, new IndiaCensusDAO( indiaCensusCSV ) ) );
-            censusList = new ArrayList( censusMap.values() );
-            return censusList.size();
-        } catch (RuntimeException e) {
-            throw new CensusAnalyserException( e.getMessage(),
-                    CensusAnalyserException.ExceptionType.WRONG_DATA );
-        } catch (IOException e) {
-            throw new CensusAnalyserException( e.getMessage(),
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM );
-        }
-
     }
 
     public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
@@ -65,7 +48,8 @@ public class CensusAnalyser {
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
             List csvList = csvBuilderInterface.getCSVFileList( reader, IndianState.class );
             Stream<IndianState> stream = csvList.stream();
-            stream.forEachOrdered( (indiastate) -> censusMap.put( indiastate.state, new IndiaCensusDAO( indiastate ) ) );
+            stream.forEachOrdered( (indiastate) -> censusMap.put( indiastate.state,
+                    new IndiaCensusDAO( indiastate ) ) );
             censusList = new ArrayList( censusMap.values() );
             return censusList.size();
         } catch (RuntimeException e) {
@@ -77,11 +61,13 @@ public class CensusAnalyser {
         }
     }
     public int loadUSCodeData(String csvFilePath) throws CensusAnalyserException {
-        try {Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
+        try {
+            Reader reader = Files.newBufferedReader( Paths.get( csvFilePath ) );
             CSVBuilderInterface csvBuilderInterface = CSVBuilderFactory.createCSVBuilder();
             List csvList = csvBuilderInterface.getCSVFileList( reader, USCensusCSV.class );
             Stream<USCensusCSV> stream = csvList.stream();
-            stream.forEachOrdered( (usstate) -> censusMap.put( usstate.state, new IndiaCensusDAO( usstate ) ) );
+            stream.forEachOrdered( (usstate) -> censusMap.put( usstate.state,
+                    new IndiaCensusDAO( usstate ) ) );
             censusList = new ArrayList( censusMap.values() );
             return censusList.size();
         } catch (RuntimeException e) {
