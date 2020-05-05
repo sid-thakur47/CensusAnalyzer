@@ -1,4 +1,4 @@
-package CSVBuilderException;
+package censusanalyser.exception;
 
 public class CSVBuilderException extends RuntimeException {
     public ExceptionType type;

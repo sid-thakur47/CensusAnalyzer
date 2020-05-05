@@ -1,8 +1,8 @@
-package censusanalyser;
+package censusanalyser.exception;
 
 public class CensusAnalyserException extends Exception {
 
-    ExceptionType type;
+    public ExceptionType type;
 
     public CensusAnalyserException(String message, ExceptionType type) {
         super( message );

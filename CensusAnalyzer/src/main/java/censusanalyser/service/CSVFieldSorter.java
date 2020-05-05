@@ -1,4 +1,6 @@
-package censusanalyser;
+package censusanalyser.service;
+
+import censusanalyser.dao.IndiaCensusDAO;
 
 import java.util.Comparator;
 
@@ -12,10 +14,10 @@ public class CSVFieldSorter {
                 comparator = Comparator.comparing( census -> census.population );
                 break;
             case "density":
-                comparator = Comparator.comparing( census -> census.densityPerSqKm );
+                comparator = Comparator.comparing( census -> census.populationDensity );
                 break;
             case "area":
-                comparator = Comparator.comparing( census -> census.areaInSqKm );
+                comparator = Comparator.comparing( census -> census.totalArea );
                 break;
             case "state":
                 comparator = Comparator.comparing( census -> census.state );
