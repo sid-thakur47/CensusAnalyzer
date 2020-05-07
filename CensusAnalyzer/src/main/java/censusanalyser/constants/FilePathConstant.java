@@ -13,4 +13,10 @@ public interface FilePathConstant {
     String WRONG_STATE_DELIMITER_FILE = "./src/main/resources/IndiaStateCodeDelimiter.csv";
     String WRONG_STATE_HEADER_FILE = "./src/main/resources/IndiaStateCodeHeader.csv";
     String US_CENSUS_CSV_FILE_PATH = "./src/test/resources/USCensusData.csv";
+
+    enum Country {
+        INDIA, US
+    }
 }
+
+
