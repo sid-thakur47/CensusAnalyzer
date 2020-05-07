@@ -3,11 +3,13 @@ package censusanalyser.service;
 import censusanalyser.dao.CensusDAO;
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.model.IndiaCensusCSV;
-import censusanalyser.model.IndianState;
 import censusanalyser.model.USCensusCSV;
 import com.google.gson.Gson;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public class CensusAnalyser {
     List<CensusDAO> censusList;
@@ -17,15 +19,14 @@ public class CensusAnalyser {
     }
 
     public int loadIndiaCensusData(String... csvFilePath) throws CensusAnalyserException {
-        censusMap=new  CensusLoader().loadCensusData( IndiaCensusCSV.class,csvFilePath );
+        censusMap = new CensusLoader().loadCensusData( IndiaCensusCSV.class, csvFilePath );
         return censusMap.size();
     }
 
     public int loadUSCodeData(String csvFilePath) throws CensusAnalyserException {
-       censusMap= new CensusLoader().loadCensusData(  USCensusCSV.class ,csvFilePath);
+        censusMap = new CensusLoader().loadCensusData( USCensusCSV.class, csvFilePath );
         return censusMap.size();
     }
-
 
     public String getStateWiseCensusData(String fieldType) throws CensusAnalyserException {
         if (censusMap == null || censusMap.size() == 0) {
