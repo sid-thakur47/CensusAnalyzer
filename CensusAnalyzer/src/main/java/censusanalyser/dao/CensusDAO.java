@@ -1,33 +1,33 @@
 package censusanalyser.dao;
 
-import censusanalyser.pojo.IndiaCensusCSV;
-import censusanalyser.pojo.IndianState;
-import censusanalyser.pojo.USCensusCSV;
+import censusanalyser.model.IndiaCensusCSV;
+import censusanalyser.model.IndianState;
+import censusanalyser.model.USCensusCSV;
 
-public class IndiaCensusDAO {
+public class CensusDAO {
 
     public String state;
-    public Integer population;
+    public int population;
     public String stateCode;
     public double totalArea;
     public double populationDensity;
 
-    public IndiaCensusDAO(IndiaCensusCSV indiaCensusCSV) {
+    public CensusDAO(IndiaCensusCSV indiaCensusCSV) {
 
         state = indiaCensusCSV.state;
         totalArea = indiaCensusCSV.areaInSqKm;
         populationDensity = indiaCensusCSV.densityPerSqKm;
         population = indiaCensusCSV.population;
     }
-    public IndiaCensusDAO(IndianState indiaState) {
+    public CensusDAO(IndianState indiaState) {
         state = indiaState.state;
         stateCode = indiaState.stateCode;
     }
-    public IndiaCensusDAO(USCensusCSV usCensusCSV) {
+    public CensusDAO(USCensusCSV usCensusCSV) {
         state = usCensusCSV.state;
         totalArea = usCensusCSV.totalArea;
         population = usCensusCSV.population;
         populationDensity = usCensusCSV.populationDensity;
-        stateCode=usCensusCSV.stateId;
+        stateCode = usCensusCSV.stateId;
     }
 }
