@@ -6,6 +6,7 @@ import censusanalyser.model.IndiaCensusCSV;
 import censusanalyser.model.IndianState;
 import censusanalyser.model.USCensusCSV;
 import censusanalyser.service.CensusAnalyser;
+import censusanalyser.service.CensusLoader;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
@@ -75,7 +76,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect( CensusAnalyserException.class );
-            int numOfRecords = censusAnalyser.loadIndianStateCodeData( FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
+            int numOfRecords = censusAnalyser.loadIndiaCensusData( FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
             Assert.assertEquals( 36, numOfRecords );
         } catch (CensusAnalyserException e) {
         }
@@ -86,7 +87,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect( CensusAnalyserException.class );
-            censusAnalyser.loadIndianStateCodeData( FilePathConstant.WRONG_STATE_CSV_FILE_PATH );
+            censusAnalyser.loadIndiaCensusData( FilePathConstant.WRONG_STATE_CSV_FILE_PATH );
         } catch (CensusAnalyserException e) {
             Assert.assertEquals( CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type );
         }
@@ -98,7 +99,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect( CensusAnalyserException.class );
-            censusAnalyser.loadIndianStateCodeData( FilePathConstant.WRONG_STATE_CSV_FILE_TYPE );
+            censusAnalyser.loadIndiaCensusData( FilePathConstant.WRONG_STATE_CSV_FILE_TYPE );
         } catch (CensusAnalyserException e) {
             Assert.assertEquals( CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type );
         }
@@ -109,7 +110,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect( CensusAnalyserException.class );
-            censusAnalyser.loadIndianStateCodeData( FilePathConstant.WRONG_STATE_DELIMITER_FILE );
+            censusAnalyser.loadIndiaCensusData( FilePathConstant.WRONG_STATE_DELIMITER_FILE );
         } catch (CensusAnalyserException e) {
             Assert.assertEquals( CensusAnalyserException.ExceptionType.WRONG_DATA, e.type );
         }
@@ -120,7 +121,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect( CensusAnalyserException.class );
-            censusAnalyser.loadIndianStateCodeData( FilePathConstant.WRONG_STATE_HEADER_FILE );
+            censusAnalyser.loadIndiaCensusData( FilePathConstant.WRONG_STATE_HEADER_FILE );
         } catch (CensusAnalyserException e) {
             Assert.assertEquals( CensusAnalyserException.ExceptionType.WRONG_DATA, e.type );
         }
@@ -147,7 +148,7 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndianStateCodeData_WhenSortedOnState_ShouldReturnStartSortedResult() throws CensusAnalyserException {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndianStateCodeData( FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
+        censusAnalyser.loadIndiaCensusData(FilePathConstant.INDIA_CENSUS_CSV_FILE_PATH, FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
         String sortedCensusData = censusAnalyser.getStateWiseCensusData( "statecode" );
         IndianState[] censusCSV = new Gson().fromJson( sortedCensusData, IndianState[].class );
         Collections.reverse( Arrays.asList( censusCSV ) );
@@ -156,7 +157,7 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndianStateCodeData_WhenSortedOnState_ShouldReturnEndSortedResult() throws CensusAnalyserException {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndianStateCodeData( FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
+        censusAnalyser.loadIndiaCensusData( FilePathConstant.INDIA_CENSUS_CSV_FILE_PATH,FilePathConstant.INDIA_STATE_CSV_FILE_PATH );
         String sortedCensusData = censusAnalyser.getStateWiseCensusData( "statecode" );
         IndianState[] censusCSV = new Gson().fromJson( sortedCensusData, IndianState[].class );
         Collections.reverse( Arrays.asList( censusCSV ) );
@@ -181,9 +182,9 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndianStateCensusData_WhenSortedOnArea_ShouldReturnSortedResult() throws CensusAnalyserException {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndiaCensusData( FilePathConstant.INDIA_CENSUS_CSV_FILE_PATH );
+        censusAnalyser.loadIndiaCensusData( FilePathConstant.INDIA_CENSUS_CSV_FILE_PATH,FilePathConstant.INDIA_STATE_CSV_FILE_PATH);
         String sortedCensusData = censusAnalyser.getStateWiseCensusData( "area" );
-        IndiaCensusCSV[] censusCSV = new Gson().fromJson( sortedCensusData, IndiaCensusCSV[].class );
+        IndianState[] censusCSV = new Gson().fromJson( sortedCensusData, IndianState[].class );
         Assert.assertEquals( "Rajasthan", censusCSV[0].state );
     }
 
@@ -191,7 +192,7 @@ public class CensusAnalyserTest {
     public void givenUSCensus_CSVFile_ReturnsCorrectRecords() throws CensusAnalyserException {
 
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        int numOfRecords = censusAnalyser.loadCensusData( FilePathConstant.US_CENSUS_CSV_FILE_PATH, USCensusCSV.class );
+        int numOfRecords = censusAnalyser.loadUSCodeData( FilePathConstant.US_CENSUS_CSV_FILE_PATH);
         Assert.assertEquals( 51, numOfRecords );
     }
 }
