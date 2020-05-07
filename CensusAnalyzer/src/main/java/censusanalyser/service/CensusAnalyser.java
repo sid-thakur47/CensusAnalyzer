@@ -15,7 +15,7 @@ public class CensusAnalyser implements FilePathConstant {
     Map<String, CensusDAO> censusMap;
 
     public int loadCensusData(Country country, String... csvFilePath) throws CensusAnalyserException {
-        censusMap = new CensusLoader().loadCensusData( country, csvFilePath );
+        censusMap = CensusAdapterFactory.getCensusData( country,csvFilePath );
         return censusMap.size();
     }
 
@@ -25,7 +25,7 @@ public class CensusAnalyser implements FilePathConstant {
                     CensusAnalyserException.ExceptionType.NO_CENSUS_DATA );
         }
         censusList = new ArrayList( censusMap.values() );
-        Comparator<CensusDAO> censusComparator = new CSVFieldSorter().getCurrentSort( fieldType );
+        Comparator<CensusDAO> censusComparator = new CensusAdapterFactory().getCurrentSort( fieldType );
         this.sort( censusComparator );
         String sortedStateCensusJson = new Gson().toJson( this.censusList );
         return sortedStateCensusJson;
