@@ -214,5 +214,5 @@ public class CensusAnalyserTest implements FilePathConstant {
         String sortedCensusData = censusAnalyser.getStateWiseCensusData( "area" );
         USCensusCSV[] censusCSV = new Gson().fromJson( sortedCensusData, USCensusCSV[].class );
         Assert.assertEquals( "Alaska", censusCSV[censusCSV.length - 1].state );
-    }
+    } 
 }
